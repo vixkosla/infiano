@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 
 export function Config() {
 
-    const { Prompts, initialPrompt, isOptimized, setSelectedPrompt } = useGlobalStore();
+    const { Prompts, initialPrompt, isOptimized, setSelectedPrompt, setSelectedPromptIndex } = useGlobalStore();
 
     // Локальный стейт для Embla-API
     const [emblaApi, setEmblaApi] = React.useState<CarouselApi | undefined>(
@@ -27,6 +27,8 @@ export function Config() {
             const index = emblaApi.selectedScrollSnap();
             const prompt = Prompts[index] || "";
             setSelectedPrompt(prompt);
+            setSelectedPromptIndex(index.toString());
+            console.log(index, prompt);
         };
 
         // При инициализации — сразу вызовем, чтобы установить prompt, соответствующий стартовому слайду
@@ -36,7 +38,7 @@ export function Config() {
         return () => {
             emblaApi.off("select", onSelect);
         };
-    }, [emblaApi, Prompts, setSelectedPrompt]);
+    }, [emblaApi]);
 
     // useEffect(() => {
     //     setSelectedPrompt(Prompts[selectedIndex] || '');
