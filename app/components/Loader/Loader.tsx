@@ -5,6 +5,7 @@ import Protocols from './protocols.png'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
 
 import { useState, useEffect } from 'react';
+import { Textarea } from '../ui/textarea';
 
 const evalutions = [
     'Evaluation 1',
@@ -16,7 +17,7 @@ const evalutions = [
 
 
 export function Loader() {
-    const [evaluations, setEvaluations] = useState();
+    const [evaluations, setEvaluations] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export function Loader() {
                     throw new Error('Failed to fetch evaluations');
                 }
                 const data = await resposnse.json();
-                setEvaluations(data);
+                setEvaluations(data.datasets || []);
                 console.log(data)
             } catch (error) {
                 console.error('Error fetching evaluations:', error);
@@ -44,39 +45,34 @@ export function Loader() {
         <>
             <div className='flex flex-col items-center'>
                 <div className='flex flex-col md:flex-row justify-center w-full gap-12 md:gap-48 mt-20'>
-                    <div className='flex justify-center'>
-                        <h2 className='mr-4 title'>BOT CONFIG</h2>
 
-                        <Button className='bg-blue-500 
-                        text-white 
-                        hover:bg-blue-600
-                        px-16
-                        rounded-sm
-                        '> Import </Button>
+                    <div className='flex flex-col items-center gap-4'>
+                        <h2 className=' title'>BOT CONFIG</h2>
+
+                        <Textarea placeholder="Enter initial prompt" 
+                        className='rounded-none border-orange-100 w-[400px] h-[250px] sm:w-[200px] sm:h-[75px]' />
+
                     </div>
 
-                    <div className='flex justify-center'>
-                        <h2 className='mr-4 title'>EVALUTION</h2>
+                    <div className='flex flex-col  items-center gap-4'>
+                        <h2 className='title'>EVALUTION</h2>
 
-                        <Select>
-                            <SelectTrigger>
+                        <Select >
+                            <SelectTrigger className='w-[400px] sm:w-[200px] rounded-none border-blue-200'>
                                 <SelectValue placeholder="Select Evaluation" />
                             </SelectTrigger>
-                            <SelectContent>
-                                {evalutions.map((evalute) => (
-                                    <SelectItem key={evalute} value={evalute}>
-                                        {evalute}
-                                    </SelectItem>
-                                ))}
+                            <SelectContent className='rounded-none border-blue-200 '>
+                                {loading ? (
+                                    <p>Loading...</p>
+                                ) : (
+                                    evaluations.map((evalute) => (
+                                        <SelectItem key={evalute} value={evalute} className='hover:rounded-none'>
+                                            {evalute}
+                                        </SelectItem>
+                                    ))
+                                )}
                             </SelectContent>
                         </Select>
-
-                        <Button className='bg-blue-500 
-                        text-white 
-                        hover:bg-blue-600
-                        px-16
-                        rounded-sm
-                        '> Import </Button>
                     </div>
                 </div>
 
