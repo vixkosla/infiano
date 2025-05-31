@@ -26,11 +26,11 @@ export function Config() {
     } = usePrevNextButtons(emblaApi)
     return (
         <>
-            <div className='flex mt-20 flex-col items-center'>
+            <div className='flex mt-20 flex-col items-center max-w-[1050px] mx-auto'>
                 <div className='flex justify-end'>
                     <h1 className='title'>CONFIG</h1>
                 </div>
-                <div className='flex justify-center gap-12 items-center'>
+                <div className='flex flex-col sm:flex-row justify-center gap-12 items-center'>
                     <Card title="Hello World" text="This is a card component sdafas dfasdf asdf as d fasdf" />
 
 
@@ -70,7 +70,6 @@ export function Config() {
                     </div>
                 </div>
             </div>
-            Hello World!
         </>
     )
 }

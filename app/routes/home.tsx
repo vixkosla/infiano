@@ -4,6 +4,7 @@ import { Chart } from "../chart/chart";
 
 import { Loader } from "../components/Loader/Loader";
 import { Config } from "../components/Config/Config";
+import { Chat } from "../components/Chat/Chat";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -17,6 +18,7 @@ export default function Home() {
     <>
       <Loader />
       <Config />
+      <Chat />
       {/* <Chart />
       <Welcome /> */}
     </>);
