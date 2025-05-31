@@ -1,6 +1,4 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
-import { Chart } from "../chart/chart";
 
 import { Loader } from "../components/Loader/Loader";
 import { Config } from "../components/Config/Config";
@@ -24,9 +22,5 @@ export default function Home() {
       <Loader />
       { isOptimized && <Config />}
       { isOptimized && <Chat /> }
-      {/* <Config /> */}
-      {/* <Chat /> */}
-      {/* <Chart />
-      <Welcome /> */}
     </>);
 }
