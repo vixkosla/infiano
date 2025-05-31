@@ -12,5 +12,8 @@ module.exports = {
         '9xl': ['8rem', { lineHeight: '1' }],            // 128px
       }
     }
-  }
+  },
+  plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
 }
