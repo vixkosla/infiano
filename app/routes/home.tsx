@@ -6,6 +6,8 @@ import { Loader } from "../components/Loader/Loader";
 import { Config } from "../components/Config/Config";
 import { Chat } from "../components/Chat/Chat";
 
+import { useGlobalStore } from "~/store/useGlobalStore";
+
 export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
@@ -14,11 +16,16 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const { isOptimized } = useGlobalStore();
+  console.log('isOptimized', isOptimized);
+
   return (
     <>
       <Loader />
-      <Config />
-      <Chat />
+      { isOptimized && <Config />}
+      { isOptimized && <Chat /> }
+      {/* <Config /> */}
+      {/* <Chat /> */}
       {/* <Chart />
       <Welcome /> */}
     </>);

@@ -51,7 +51,8 @@ export function Spinner({ value }) {
         top: '50%',
         transform: 'translate(-50%, -50%)'
       }}>
-        {value}%
+        {/* {value} */}
+        ?%
       </span>
     </div>
   );

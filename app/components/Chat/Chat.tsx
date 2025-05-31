@@ -3,7 +3,9 @@ import { Card, CardHeader, CardContent } from '../ui/card';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
-import { use, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useGlobalStore } from '~/store/useGlobalStore';
 
 const dialoge = [
     {
@@ -40,14 +42,16 @@ const dialoge = [
 ]
 
 export function Chat() {
+    const { initialPrompt, selectedPrompt } = useGlobalStore();
+
     return (
         <>
             <div className="mt-40 mb-40 max-w-[1050px] mx-auto">
                 <h1 className="title">CHAT</h1>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-10 bg-gray-100 p-10">
                     {/* <p>Hello Chat</p> */}
-                    <ChatComponent />
-                    <ChatComponent bg-secondary text-secondary-foreground />
+                    <ChatComponent prompt={initialPrompt}/>
+                    <ChatComponent prompt={selectedPrompt} bg-secondary text-secondary-foreground />
 
                 </div>
             </div>
