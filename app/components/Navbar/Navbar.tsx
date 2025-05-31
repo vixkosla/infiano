@@ -8,7 +8,7 @@ export function Navbar() {
         <>
             <nav className='flex items-center justify-between gap-4 p-4 bg-gray-50 shadow-sm font-light'>
                 <Logo />
-                <div className='flex items-center gap-8 mr-6 sm:mr-12'>
+                {/* <div className='flex items-center gap-8 mr-6 sm:mr-12'>
                     <NavLink to="/" className={({ isActive }) =>
                         isActive ? "active" : ""
                     }>Optimize</NavLink>
@@ -18,7 +18,7 @@ export function Navbar() {
                     <div className='ml-4 sm:ml-0'>
                         <UserAvatar  />
                     </div>
-                </div>
+                </div> */}
             </nav>
         </>
     )

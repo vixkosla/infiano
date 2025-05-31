@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 export function Spinner({ value }) {
  const radius = 80;
-  const stroke = 30;
+  const stroke = 5;
   const normalizedRadius = radius - stroke / 2;
   const circumference = 2 * Math.PI * normalizedRadius;
   const offset = circumference - (value / 100) * circumference;
@@ -14,12 +14,12 @@ export function Spinner({ value }) {
         
         width={radius * 2}
         height={radius * 2}
-        className="block animate-spin "
+        className="block animate-spin opacity-30"
         style={{ display: 'block' }}
       >
         <defs>
           <linearGradient id="progressGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#2196f3" />
+            <stop offset="0%" stopColor="#51a2ff" />
             <stop offset="100%" stopColor="#90caf9" />
           </linearGradient>
         </defs>
@@ -29,7 +29,7 @@ export function Spinner({ value }) {
           cy={radius}
           r={normalizedRadius}
           fill="none"
-          stroke="#e5e7eb"
+          stroke="#f9fafb"
           strokeWidth={stroke}
         />
         {/* Прогресс */}
@@ -46,13 +46,13 @@ export function Spinner({ value }) {
           style={{ transition: 'stroke-dashoffset 0.5s ease-in-out' }}
         />
       </svg>
-      <span className="absolute text-2xl font-bold text-orange-600" style={{
+      <span className="absolute text-lg font-light text-orange-300" style={{
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)'
       }}>
-        {/* {value} */}
-        ?%
+        {value}
+        %
       </span>
     </div>
   );

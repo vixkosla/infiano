@@ -1,5 +1,5 @@
 import { AvatarImage, Avatar } from '../ui/avatar';
-import { Card, CardHeader, CardContent } from '../ui/card';
+import { Card, CardHeader, CardContent, CardTitle } from '../ui/card';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
@@ -8,6 +8,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useGlobalStore } from '~/store/useGlobalStore';
 
 import { Forward } from 'lucide-react';
+
+import ReactMarkdown from 'react-markdown';
+
+import { cn } from '~/lib/utils';
 
 const dialoge = [
     {
@@ -52,8 +56,8 @@ export function Chat() {
                 <h1 className="title text-center">CHAT</h1>
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-10 p-10">
                     {/* <p>Hello Chat</p> */}
-                    <ChatComponent prompt={initialPrompt} side='left' />
-                    <ChatComponent prompt={selectedPrompt} side='right' />
+                    <ChatComponent prompt={initialPrompt} side='left' title='BEFORE'/>
+                    <ChatComponent prompt={selectedPrompt} side='right' title='AFTER'/>
 
                 </div>
             </div>
@@ -66,17 +70,21 @@ type Message = {
     content: string;
 };
 
-const ChatComponent = ({ dialog = [], prompt = '', side = 'left' }) => {
+const ChatComponent = ({ title = 'BEFORE', dialog = [], prompt = '', side = 'left' }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
 
     const contentRef = useRef<HTMLDivElement>(null);
 
+    const { selectedPromptIndex, isOptimized } = useGlobalStore();
+
     const scrollToBottom = () => {
-        if (contentRef.current) {
-            contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
+        contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
+
+    const decodeNewlines = (text: string) => {
+        return text.replace(/\\n/g, '\n');
+    };
 
     useEffect(() => {
         // Initialize chat with some messages
@@ -137,11 +145,27 @@ const ChatComponent = ({ dialog = [], prompt = '', side = 'left' }) => {
 
     return (
         <>
-            <Card className={`'h-128 w-96 rounded-none py-0' + ${
-                side === 'right' ? 'bg-blue-50 border-blue-200' : 'bg-orange-50 border-orange-200'
-            }`
-            }>
-                <CardContent className=' h-96 flex flex-col gap-4 overflow-y-auto py-0'>
+            <Card
+                className={cn(
+                    "h-128 w-96 rounded-none py-0",
+                    side === 'right'
+                        ? "bg-blue-50 border-blue-200"
+                        : "bg-orange-50 border-orange-200",
+                    // добавляем side === 'right' в условие
+                    side === 'right' && !isOptimized && "opacity-20 pointer-events-none cursor-not-allowed bg-muted/50"
+                )}
+                // тоже только для правой карточки ставим aria-disabled
+                aria-disabled={side === 'right' && !isOptimized}
+            >
+                <CardHeader className='bg-none'>
+                    <CardTitle>
+                        <div className='flex items-center justify-between italic'>
+                            <div className="pt-2">{title}</div>
+                            {side === 'right' && <div className="">{selectedPromptIndex}</div>}
+                        </div>
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className='  flex flex-col gap-4 overflow-y-scroll py-0 scrollbar-none'>
                     {messages.map((message, index) => (
                         <div key={index}
                             className={
@@ -162,7 +186,9 @@ const ChatComponent = ({ dialog = [], prompt = '', side = 'left' }) => {
                             }
                             ref={index === messages.length - 1 ? contentRef : null}
                         >
-                            {message.content}</div>
+                            {message.type === 'ai'
+                                ? <ReactMarkdown>{decodeNewlines(message.content)}</ReactMarkdown>
+                                : message.content}</div>
                     ))}
                     {/* <p>This is a simple chat component.</p> */}
                     {/* Add your chat UI here */}

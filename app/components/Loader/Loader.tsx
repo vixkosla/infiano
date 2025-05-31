@@ -29,6 +29,26 @@ export function Loader() {
 
     const { setIsOptimized, setInitialPrompt, setPrompts } = useGlobalStore();
 
+    const [timer, setTimer] = useState(0);
+
+    const startTimer = () => {
+        setTimer(0); // Сброс таймера
+
+        // Общее время: 2 минуты = 120000 мс
+        // Шаг обновления: 120000мс / 100 единиц = 1200мс
+        const interval = setInterval(() => {
+            setTimer(prevTimer => {
+                if (prevTimer >= 100) {
+                    clearInterval(interval);
+                    return 100;
+                }
+                return prevTimer + 1;
+            });
+        }, 1200); // 1200мс = 1.2 секунды между обновлениями
+
+        // Очистка при размонтировании (если используете React)
+        return () => clearInterval(interval);
+    };
 
     const handleOptimize = async () => {
         if (!input || !selectedEvaluation) {
@@ -37,6 +57,7 @@ export function Loader() {
         }
 
         setOptimizing(true);
+        startTimer();
 
         const body = {
             "prompt": input,
@@ -104,19 +125,19 @@ export function Loader() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Enter initial prompt"
-                            className='rounded-none border-orange-100 w-[400px] h-[250px] sm:w-[200px] sm:h-[75px]' />
+                            className='shadow-lg rounded-none border-orange-100 w-[250px] h-[90px] sm:w-[250px] sm:h-[75px]' />
 
                     </div>
 
                     <div className='flex flex-col  items-center gap-4'>
-                        <h2 className='title text-blue-400'>EVALUTION</h2>
+                        <h2 className='title text-blue-400'>DATA SETS</h2>
 
                         <Select onValueChange={(value) => {
                             console.log('Selected evaluation:', value);
                             setSelectedEvaluation(value)
                         }}>
-                            <SelectTrigger className='w-[400px] sm:w-[200px] rounded-none border-blue-200'>
-                                <SelectValue placeholder="Select Evaluation" />
+                            <SelectTrigger className=' shadow-md w-[200px] sm:w-[200px] rounded-none border-blue-200'>
+                                <SelectValue placeholder="Select dataset" />
                             </SelectTrigger>
                             <SelectContent className='rounded-none border-blue-200 '>
                                 {loading ? (
@@ -138,6 +159,7 @@ export function Loader() {
                         disabled={optimizing}
                         onClick={handleOptimize}
                         className='
+                    shadow-xl
                     rounded-none
                     text-orange-400
                     border-2
@@ -169,7 +191,7 @@ export function Loader() {
                     </div>
                 </div>
 
-                {optimizing && <Spinner value={10} />}
+                {optimizing && <Spinner value={timer} />}
 
             </div>
         </>

@@ -8,19 +8,17 @@ import { useGlobalStore } from "~/store/useGlobalStore";
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Infiano" },
+    { name: "...", content: "Welcome to the better world!" },
   ];
 }
 
 export default function Home() {
-  const { isOptimized } = useGlobalStore();
-  console.log('isOptimized', isOptimized);
 
   return (
     <>
       <Loader />
-      { isOptimized && <Config />}
-      { isOptimized && <Chat /> }
+      <Config />
+      <Chat />
     </>);
 }

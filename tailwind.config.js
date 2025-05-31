@@ -10,10 +10,20 @@ module.exports = {
         '7xl': ['4.5rem', { lineHeight: '1' }],          // 72px
         '8xl': ['6rem', { lineHeight: '1' }],            // 96px
         '9xl': ['8rem', { lineHeight: '1' }],            // 128px
+      },
+      boxShadow: {
+        'top': '0 -4px 6px -1px rgba(0, 0, 0, 0.1)',
+        'right': '4px 20 26px -1px rgba(196, 18, 18, 0.1)',
+        'bottom': '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+        'left': '-4px 0 6px -1px rgba(0, 0, 0, 0.1)',
+        'tl-corner': '-4px -4px 6px -1px rgba(0, 0, 0, 0.1)', // Верхний левый
+        'tr-corner': '4px -4px 6px -1px rgba(0, 0, 0, 0.1)',  // Верхний правый
+        'bl-corner': '-4px 4px 6px -1px rgba(0, 0, 0, 0.1)',  // Нижний левый
+        'br-corner': '4px 4px 6px -1px rgba(0, 0, 0, 0.1)',   // Нижний правый
       }
     }
   },
   plugins: [
-    require('tailwind-scrollbar')({ nocompatible: true }),
+    require('tailwind-scrollbar-hide')({ nocompatible: true }),
   ],
 }

@@ -4,9 +4,11 @@ export function Logo() {
     return (
         <>
             <div>
-                <img src={LogoInfiano}
-                    className='h-8 w-auto sm:h-10'
-                    alt="" />
+                <a href='https://infiano.ai' target="_blank">
+                    <img src={LogoInfiano}
+                        className='h-8 w-auto sm:h-10'
+                        alt="" />
+                </a>
             </div>
         </>
     )
