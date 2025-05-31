@@ -10,6 +10,9 @@ import {
 
 import useEmblaCarousel from 'embla-carousel-react';
 
+import { useGlobalStore } from '~/store/useGlobalStore';
+import { useEffect } from 'react';
+
 export function Config() {
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: true,
@@ -24,6 +27,13 @@ export function Config() {
         onPrevButtonClick,
         onNextButtonClick
     } = usePrevNextButtons(emblaApi)
+
+    const { Prompts, initialPrompt, setSelectedPrompt } = useGlobalStore();
+
+    useEffect(() => {
+        setSelectedPrompt(Prompts[selectedIndex] || '');
+    },[selectedIndex])
+
     return (
         <>
             <div className='flex mt-20 flex-col items-center max-w-[1050px] mx-auto'>
@@ -31,17 +41,17 @@ export function Config() {
                     <h1 className='title'>CONFIG</h1>
                 </div>
                 <div className='flex flex-col sm:flex-row justify-center gap-12 items-center'>
-                    <Card title="Hello World" text="This is a card component sdafas dfasdf asdf as d fasdf" />
+                    <Card title="Initial Prompt" text={initialPrompt} />
 
 
 
                     <div className='embla w-[300px] h-[300px]' >
                         <div className="embla__viewport" ref={emblaRef}>
                             <div className='embla__container'>
-                                {cards.map((card, index) => (
+                                {Prompts.map((card, index) => (
                                     <div className='embla__slide' key={index}>
                                         <div className="embla__slide__number ">
-                                            <Card title={card.title} text={card.text} />
+                                            <Card title={"Prompt #" + (index + 1)} text={card} />
                                         </div>
                                     </div>
                                 ))}

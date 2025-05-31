@@ -27,7 +27,7 @@ export function Loader() {
     const [loading, setLoading] = useState(true);
     const [optimizing, setOptimizing] = useState(false);
 
-    const { setIsOptimized } = useGlobalStore();
+    const { setIsOptimized, setInitialPrompt, setPrompts } = useGlobalStore();
 
 
     const handleOptimize = async () => {
@@ -59,8 +59,12 @@ export function Loader() {
             }
 
             const data = await response.json();
-            setOptimizing(false);
+
+            setInitialPrompt(body.prompt);
+            setPrompts(data.prompts || []);
             setIsOptimized(true)
+            setOptimizing(false);
+
             console.log(data);
         } catch (error) {
             console.error('Error sending message:', error);
