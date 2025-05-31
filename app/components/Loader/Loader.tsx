@@ -9,6 +9,8 @@ import { Textarea } from '../ui/textarea';
 
 import { Loader2 } from 'lucide-react';
 
+import { useGlobalStore } from '~/store/useGlobalStore';
+
 const evalutions = [
     'Evaluation 1',
     'Evaluation 2',
@@ -24,6 +26,8 @@ export function Loader() {
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(true);
     const [optimizing, setOptimizing] = useState(false);
+
+    const { setIsOptimized } = useGlobalStore();
 
 
     const handleOptimize = async () => {
@@ -56,6 +60,7 @@ export function Loader() {
 
             const data = await response.json();
             setOptimizing(false);
+            setIsOptimized(true)
             console.log(data);
         } catch (error) {
             console.error('Error sending message:', error);
@@ -145,7 +150,7 @@ export function Loader() {
                         {optimizing ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Загрузка...
+                                LOADING...
                             </>
                         ) : (
                             "OPTIMIZE"
@@ -160,7 +165,7 @@ export function Loader() {
                     </div>
                 </div>
 
-                <Spinner value={20} />
+                {optimizing && <Spinner value={10} />}
 
             </div>
         </>
