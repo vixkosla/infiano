@@ -52,20 +52,18 @@ export function Config() {
                     <Card title="Initial Prompt" text={initialPrompt} />
 
                     <Carousel setApi={setEmblaApi} className='w-full max-w-[355px] '>
-                        <CarouselContent className='flex flex-row justify-end gap-5'>
-                            {Prompts.length > 0 ?
-                                (Prompts.map((card, index) => (
-
+                        <CarouselContent>
+                            {Prompts.length > 0 ? (
+                                Prompts.map((card, index) => (
                                     <CarouselItem key={index}>
                                         <div className='p-1'>
-                                            <AfterCard title={"Prompt #" + (index + 1)} text={card} />
+                                            <AfterCard title={`Prompt #${index + 1}`} text={card} />
                                         </div>
                                     </CarouselItem>
                                 ))
-                                ) : (
-                                    <AfterCard title="No Prompts" text="Please add prompts to see them here." />
-                                )}
-
+                            ) : (
+                                <AfterCard title="No Prompts" text="Please add prompts to see them here." />
+                            )}
                         </CarouselContent>
                         <CarouselPrevious />
                         <CarouselNext />
