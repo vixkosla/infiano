@@ -138,13 +138,13 @@ export function Loader() {
                         disabled={optimizing}
                         onClick={handleOptimize}
                         className='
+                    rounded-none
                     text-orange-400
                     border-2
                     bg-white
                     border-orange-200
                     px-16
                     py-7
-                    rounded-sm
                     text-xl
                     hover:bg-orange-200
                     hover:text-blue-300

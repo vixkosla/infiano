@@ -21,6 +21,18 @@ body {
   @apply text-3xl font-light tracking-widest;
 }
 
+.left-ai {
+  @apply bg-orange-100;
+}
+
+.right-ai {
+  @apply bg-blue-100;
+}
+
+.human-style {
+  @apply bg-gray-50;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

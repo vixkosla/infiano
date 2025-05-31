@@ -3,9 +3,11 @@ import { Card, CardHeader, CardContent } from '../ui/card';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useGlobalStore } from '~/store/useGlobalStore';
+
+import { Forward } from 'lucide-react';
 
 const dialoge = [
     {
@@ -47,11 +49,11 @@ export function Chat() {
     return (
         <>
             <div className="mt-40 mb-40 max-w-[1050px] mx-auto">
-                <h1 className="title">CHAT</h1>
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-10 bg-gray-100 p-10">
+                <h1 className="title text-center">CHAT</h1>
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-10 p-10">
                     {/* <p>Hello Chat</p> */}
-                    <ChatComponent prompt={initialPrompt}/>
-                    <ChatComponent prompt={selectedPrompt} bg-secondary text-secondary-foreground />
+                    <ChatComponent prompt={initialPrompt} side='left' />
+                    <ChatComponent prompt={selectedPrompt} side='right' />
 
                 </div>
             </div>
@@ -64,13 +66,22 @@ type Message = {
     content: string;
 };
 
-const ChatComponent = ({ dialog = [], prompt = '' }) => {
+const ChatComponent = ({ dialog = [], prompt = '', side = 'left' }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
+
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        if (contentRef.current) {
+            contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }
 
     useEffect(() => {
         // Initialize chat with some messages
         setMessages(dialoge);
+        scrollToBottom();
     }, []);
 
     const handleSendMessage = async () => {
@@ -114,6 +125,7 @@ const ChatComponent = ({ dialog = [], prompt = '' }) => {
             const replyMessages = [...messages, newMessage, reply]; // <- правильно собрать новые сообщения с ответом AI
 
             setMessages(replyMessages)
+            scrollToBottom();
 
             setInput('');
 
@@ -125,18 +137,30 @@ const ChatComponent = ({ dialog = [], prompt = '' }) => {
 
     return (
         <>
-            <Card className='h-128 w-108 rounded-none py-0'>
-                <CardContent className=' h-96 flex flex-col gap-4 overflow-y-auto '>
+            <Card className={`'h-128 w-96 rounded-none py-0' + ${
+                side === 'right' ? 'bg-blue-50 border-blue-200' : 'bg-orange-50 border-orange-200'
+            }`
+            }>
+                <CardContent className=' h-96 flex flex-col gap-4 overflow-y-auto py-0'>
                     {messages.map((message, index) => (
                         <div key={index}
                             className={
-                                `flex ${message.type === 'human' ? 'ml-auto' : 'mr-auto'
-                                } break-words w-max max-w-[75%] flex-col p-2 px-3 text-sm
-                                ${message.type === 'human'
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'bg-muted'
-                                } animate-fade-in`
+                                `${(side === 'right' && message.type === 'ai') ? 'left-ai ' : ''}`
+                                +
+                                `${(side === 'left' && message.type === 'ai') ? 'right-ai ' : ''}`
+                                +
+                                `${message.type === 'human' ? 'human-style ' : ''}`
+                                +
+                                ` flex 
+                                ${message.type === 'human' ?
+                                    'ml-auto ' :
+                                    'mr-auto '
+                                } 
+                                break-words w-max max-w-[75%] flex-col p-2 px-3 text-xs
+                                animate-fade-in rounded-lg
+                                `
                             }
+                            ref={index === messages.length - 1 ? contentRef : null}
                         >
                             {message.content}</div>
                     ))}
@@ -148,23 +172,12 @@ const ChatComponent = ({ dialog = [], prompt = '' }) => {
                         <Textarea
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            className='flex-1 pr-12'
-                            placeholder='Type a message' />
-                        <Button className='h-10 w-10'
+                            className='flex-1 pr-12 border-0 shadow-none focus:ring-0 focus:border-0 rounded-none'
+                            placeholder='Type a message . . .' />
+                        <Button className={`h-10 w-10 rounded-none
+                         ${side === 'right' ? 'bg-blue-200 hover:bg-blue-300' : 'bg-orange-200 hover:bg-orange-300'}`}
                             onClick={handleSendMessage}>
-                            <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                stroke='currentColor'
-                                strokeWidth="2"
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                            >
-                                <path d="m5 12 7-7 7 7" />
-                                <path d="M12 19v5" />
-                            </svg>
-                            <span className='sr-only'>Send</span>
+                            <Forward size={90} strokeWidth={2.5} />
                         </Button>
                     </div>
                 </div>

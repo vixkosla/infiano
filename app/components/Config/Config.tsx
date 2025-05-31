@@ -40,18 +40,18 @@ export function Config() {
                 <div className='flex justify-end'>
                     <h1 className='title'>CONFIG</h1>
                 </div>
-                <div className='flex flex-col sm:flex-row justify-center gap-12 items-center'>
+                <div className='flex flex-col sm:flex-row justify-center gap-12 items-center mt-10'>
                     <Card title="Initial Prompt" text={initialPrompt} />
 
 
 
-                    <div className='embla w-[300px] h-[300px]' >
+                    <div className='embla w-[350px] h-[350px]' >
                         <div className="embla__viewport" ref={emblaRef}>
                             <div className='embla__container'>
                                 {Prompts.map((card, index) => (
                                     <div className='embla__slide' key={index}>
                                         <div className="embla__slide__number ">
-                                            <Card title={"Prompt #" + (index + 1)} text={card} />
+                                            <AfterCard title={"Prompt #" + (index + 1)} text={card} />
                                         </div>
                                     </div>
                                 ))}
@@ -86,17 +86,32 @@ export function Config() {
 
 function Card({ title, text }: { title: string; text: string }) {
     return (
-        <div className='w-[300px] h-[300px] bg-gray-100'>
-            <h4 className='text-center text-'>{title}</h4>
-            <div>
-                <img src={Left} alt="" />
+        <div className='flex flex-col items-center justify-start w-[350px] h-[350px] border-2 border-orange-200'>
+            <h4 className='text-center font-thin py-5'>{title}</h4>
+            <div className='px-5'>
+                <img src={Right} alt="" />
             </div>
             <div className='flex justify-center items-center'>
-                <p className='text-center '>{text}</p>
+                <p className='text-center py-5 max-w-[200px] text-sm font-light'>{text}</p>
             </div>
         </div>
     )
 }
+
+function AfterCard({ title, text }: { title: string; text: string }) {
+    return (
+        <div className='flex flex-col items-center justify-start w-[350px] h-[350px] border-2 border-blue-200'>
+            <h4 className='text-center font-thin py-5'>{title}</h4>
+            <div className='px-5'>
+                <img src={Left} alt="" />
+            </div>
+            <div className='flex justify-center items-center'>
+                <p className='text-center py-5 max-w-[200px] text-sm font-light'>{text}</p>
+            </div>
+        </div>
+    )
+}
+
 
 const cards = [
     { title: 'Card 1', text: 'This is card 1d sdfsdf asdf asdf asdfasdfsdfa s' },
