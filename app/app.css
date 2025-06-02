@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -30,7 +31,7 @@ body {
 }
 
 .human-style {
-  @apply bg-gray-50;
+  @apply bg-gray-50 border-1 border-gray-100;
 }
 
 @theme inline {

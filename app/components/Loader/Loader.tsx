@@ -82,7 +82,7 @@ export function Loader() {
             const data = await response.json();
 
             setInitialPrompt(body.prompt);
-            setPrompts(data.prompts || []);
+            setPrompts(data.prompts.shift() || []);
             setIsOptimized(true)
             setOptimizing(false);
 
@@ -116,7 +116,18 @@ export function Loader() {
     return (
         <>
             <div className='flex flex-col items-center'>
-                <div className='flex flex-col md:flex-row justify-center w-full gap-12 md:gap-48 mt-20'>
+                <div className="cl w-[270px] sm:w-[700px] mx-auto mt-7.5">
+                    <p className='leading-4 sm:leading-6 text-mono text-thin text-gray-500 italic text-left text-xs'>
+                        This is Infiano AI Tuner, it adjusts your AI model configuration according to the evaluations dataset. Please enter your starting prompt, and select the dataset, then press Optimize.
+                        Try it out at the chat window at the bottom of the page, where you can talk with the initial AI bot and with optimized AI bot.</p>
+                    <br />
+                    <br />
+                    <hr />
+                </div>
+
+
+
+                <div className='flex flex-col md:flex-row justify-center w-full gap-12 md:gap-48 mt-15'>
 
                     <div className='flex flex-col items-center gap-4'>
                         <h2 className=' title text-orange-200'>BOT CONFIG</h2>
@@ -125,18 +136,18 @@ export function Loader() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Enter initial prompt"
-                            className='shadow-lg rounded-none border-orange-100 w-[250px] h-[90px] sm:w-[250px] sm:h-[75px]' />
+                            className='resize-none shadow-lg rounded-none border-orange-100 w-[250px] h-[120px] sm:w-[250px] sm:h-[185px] sm:h-max-[185px]' />
 
                     </div>
 
                     <div className='flex flex-col  items-center gap-4'>
-                        <h2 className='title text-blue-400'>DATA SETS</h2>
+                        <h2 className='title text-blue-400'>DATASETS</h2>
 
                         <Select onValueChange={(value) => {
                             console.log('Selected evaluation:', value);
                             setSelectedEvaluation(value)
                         }}>
-                            <SelectTrigger className=' shadow-md w-[200px] sm:w-[200px] rounded-none border-blue-200'>
+                            <SelectTrigger className=' shadow-md w-[250px] h-[90px] sm:w-[250px] sm:h-[75px] rounded-none border-blue-200'>
                                 <SelectValue placeholder="Select dataset" />
                             </SelectTrigger>
                             <SelectContent className='rounded-none border-blue-200 '>
@@ -176,7 +187,7 @@ export function Loader() {
                         {optimizing ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                LOADING...
+                                Optimizing...
                             </>
                         ) : (
                             "OPTIMIZE"

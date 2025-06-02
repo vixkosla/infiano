@@ -1,3 +1,5 @@
+
+
 // tailwind.config.js
 module.exports = {
   theme: {
@@ -20,10 +22,15 @@ module.exports = {
         'tr-corner': '4px -4px 6px -1px rgba(0, 0, 0, 0.1)',  // Верхний правый
         'bl-corner': '-4px 4px 6px -1px rgba(0, 0, 0, 0.1)',  // Нижний левый
         'br-corner': '4px 4px 6px -1px rgba(0, 0, 0, 0.1)',   // Нижний правый
-      }
+      },
+      fontFamily: {
+        custom: ['"Roboto"', 'sans-serif'],
+        mono: ['"Fira Code"', 'monospace'],
+      },
     }
   },
   plugins: [
-    require('tailwind-scrollbar-hide')({ nocompatible: true }),
+    // require('tailwind-scrollbar-hide')({ nocompatible: true }),
+    require('tailwind-scrollbar')
   ],
 }
