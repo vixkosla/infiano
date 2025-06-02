@@ -80,9 +80,10 @@ export function Loader() {
             }
 
             const data = await response.json();
+            const [firstPrompt, ...remainingPrompts] = data.prompts; // Извлекаем первый элемент и остаток
 
             setInitialPrompt(body.prompt);
-            setPrompts(data.prompts.shift() || []);
+            setPrompts(remainingPrompts || []);
             setIsOptimized(true)
             setOptimizing(false);
 
